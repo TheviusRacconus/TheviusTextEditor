@@ -4,7 +4,7 @@ import com.thevius.theviustexteditor.gui.TextEditorGUI;
 
 public class TheviusTextEditor
 {
-    public static void main(String args[])
+    public static void main(String[] args)
     {
         TextEditorGUI gui = new TextEditorGUI();
     }

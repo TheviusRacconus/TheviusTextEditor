@@ -49,7 +49,21 @@ public class FileHandler
 
     public static String getFileName(String path)
     {
+        String name, extension, temp;
         File file = new File(path);
-        return file.getName();
+        temp = file.getName();
+        int index = temp.lastIndexOf(".");
+
+        if(index != -1)
+        {
+            name = temp.substring(0, index);
+            extension = temp.substring(index);
+            if(extension.equals(".txt"))
+            {
+                return name;
+            }
+        }
+
+        return temp;
     }
 }

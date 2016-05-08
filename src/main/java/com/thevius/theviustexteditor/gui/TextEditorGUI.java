@@ -17,9 +17,11 @@ public class TextEditorGUI extends JFrame
     private JButton openFileButton;
     private JButton saveFileButton;
     private JButton saveFileAsButton;
+    private JButton closeFileButton;
     private JToolBar.Separator jSeparator1;
     private JToolBar.Separator jSeparator2;
     private JToolBar.Separator jSeparator3;
+    private JToolBar.Separator jSeparator4;
     private JMenuBar menuBar;
     private JToolBar toolbar;
 
@@ -44,6 +46,8 @@ public class TextEditorGUI extends JFrame
         saveFileButton = new JButton();
         jSeparator3 = new JToolBar.Separator();
         saveFileAsButton = new JButton();
+        jSeparator4 = new JToolBar.Separator();
+        closeFileButton = new JButton();
         editor = new JTabbedPane();
         bottomInfo = new JPanel();
         menuBar = new JMenuBar();
@@ -80,6 +84,13 @@ public class TextEditorGUI extends JFrame
         saveFileAsButton.setHorizontalTextPosition(SwingConstants.CENTER);
         saveFileAsButton.setVerticalTextPosition(SwingConstants.BOTTOM);
         toolbar.add(saveFileAsButton);
+        toolbar.add(jSeparator4);
+
+        closeFileButton.setText("Close File");
+        closeFileButton.setFocusable(false);
+        closeFileButton.setHorizontalTextPosition(SwingConstants.CENTER);
+        closeFileButton.setVerticalTextPosition(SwingConstants.BOTTOM);
+        toolbar.add(closeFileButton);
 
         GroupLayout bottomInfoLayout = new GroupLayout(bottomInfo);
         bottomInfo.setLayout(bottomInfoLayout);
@@ -155,6 +166,14 @@ public class TextEditorGUI extends JFrame
                 saveFileAs();
             }
         });
+
+        closeFileButton.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                closeFile();
+            }
+        });
     }
 
     private void newFile()
@@ -186,9 +205,10 @@ public class TextEditorGUI extends JFrame
         }
     }
 
-    private void saveFile()
+    private boolean saveFile()
     {
         String path, text;
+        boolean successful = false;
         FilePanel panel;
         int selectedIndex = editor.getSelectedIndex();
         panel = (FilePanel) editor.getComponentAt(selectedIndex);
@@ -202,16 +222,23 @@ public class TextEditorGUI extends JFrame
             {
                 JOptionPane.showMessageDialog(this, "Error!");
             }
+            else
+            {
+                successful = true;
+            }
         }
         else
         {
-            saveFileAs();
+            successful = saveFileAs();
         }
+
+        return successful;
     }
 
-    private void saveFileAs()
+    private boolean saveFileAs()
     {
         String path, text;
+        boolean successful = false;
         FilePanel panel;
         int selectedIndex = editor.getSelectedIndex();
 
@@ -232,12 +259,40 @@ public class TextEditorGUI extends JFrame
             {
                 panel.setFilePath(path);
                 editor.setTitleAt(selectedIndex, FileHandler.getFileName(path));
+                successful = true;
             }
             else
             {
                 JOptionPane.showMessageDialog(this, "Error!");
             }
         }
+
+        return successful;
+    }
+
+    private void closeFile()
+    {
+        FilePanel panel;
+        int selectedIndex = editor.getSelectedIndex();
+        panel = (FilePanel) editor.getComponentAt(selectedIndex);
+
+        if(panel.hasChanged())
+        {
+            //setup option dialog
+            Object[] options = {"Save Changes", "Discard Changes", "Cancel"};
+            int n = JOptionPane.showOptionDialog(this,
+                    "This file has been modified. Would you like to save changes?",
+                    "Save Changes?", JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
+            if((n == JOptionPane.YES_OPTION && saveFile()) || n == JOptionPane.NO_OPTION)
+            {
+                editor.remove(selectedIndex);
+            }
+        }
+        else
+        {
+            editor.remove(selectedIndex);
+        }
     }
 }
-

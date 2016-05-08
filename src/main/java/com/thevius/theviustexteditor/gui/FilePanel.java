@@ -7,11 +7,12 @@ public class FilePanel extends JPanel
     private JPanel lineNumbers;
     private JScrollPane scrollPane;
     private JTextArea textArea;
-    private String filePath;
+    private String filePath, originalText;
 
     public FilePanel()
     {
         initComponents();
+        originalText = "";
     }
 
     public FilePanel(String text, String path)
@@ -19,6 +20,7 @@ public class FilePanel extends JPanel
         initComponents();
         textArea.setText(text);
         filePath = path;
+        originalText = text;
     }
 
     public String getText()
@@ -34,6 +36,11 @@ public class FilePanel extends JPanel
     public void setFilePath(String path)
     {
         filePath = path;
+    }
+
+    public boolean hasChanged()
+    {
+        return !originalText.equals(textArea.getText());
     }
 
     @SuppressWarnings("unchecked")
