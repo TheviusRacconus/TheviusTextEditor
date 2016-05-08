@@ -1,4 +1,4 @@
-package file;
+package com.thevius.theviustexteditor.file;
 
 import java.io.*;
 
@@ -49,10 +49,7 @@ public class FileHandler
 
     public static String getFileName(String path)
     {
-        String name, extension;
         File file = new File(path);
-        name = file.getName();
-
-        return name;
+        return file.getName();
     }
 }

@@ -1,4 +1,4 @@
-package gui;
+package com.thevius.theviustexteditor.gui;
 
 import javax.swing.*;
 

@@ -1,9 +1,9 @@
-package gui;
+package com.thevius.theviustexteditor.gui;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import file.FileHandler;
+import com.thevius.theviustexteditor.file.FileHandler;
 
 public class TextEditorGUI extends JFrame
 {
@@ -26,6 +26,7 @@ public class TextEditorGUI extends JFrame
     public TextEditorGUI()
     {
         newFileCount = 1;
+        setTitle("TheviusTextEditor");
         initComponents();
         actionListeners();
         newFile();
@@ -125,7 +126,6 @@ public class TextEditorGUI extends JFrame
     {
         newFileButton.addActionListener(new ActionListener()
         {
-            @Override
             public void actionPerformed(ActionEvent e)
             {
                 newFile();
@@ -134,7 +134,6 @@ public class TextEditorGUI extends JFrame
 
         openFileButton.addActionListener(new ActionListener()
         {
-            @Override
             public void actionPerformed(ActionEvent e)
             {
                openFile();
@@ -143,7 +142,6 @@ public class TextEditorGUI extends JFrame
 
         saveFileButton.addActionListener(new ActionListener()
         {
-            @Override
             public void actionPerformed(ActionEvent e)
             {
                 saveFile();
@@ -152,7 +150,6 @@ public class TextEditorGUI extends JFrame
 
         saveFileAsButton.addActionListener(new ActionListener()
         {
-            @Override
             public void actionPerformed(ActionEvent e)
             {
                 saveFileAs();
